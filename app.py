@@ -1,4 +1,5 @@
-import os                                    # para leer variables de entorno (APP_VERSION)
+import os    # para leer variables de entorno (APP_VERSION)
+
 from flask import Flask, jsonify             # Flask = la app web; jsonify = respuesta en JSON
 
 app = Flask(__name__)                        # crea la app; gunicorn la buscará por este nombre "app"
