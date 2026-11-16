@@ -1,0 +1,5 @@
+# contrasenas y variables locales 
+.env
+# caches de Python
+__pycache__/
+*.pyc
