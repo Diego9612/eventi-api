@@ -1,5 +1,6 @@
-import os                                    # para leer variables de entorno (APP_VERSION)
-from flask import Flask, jsonify             # Flask = la app web; jsonify = respuesta en JSON
+import os  # para leer variables de entorno (APP_VERSION)
+
+from flask import Flask, jsonify  # Flask = la app web; jsonify = respuesta en JSON
 
 app = Flask(__name__)                        # crea la app; gunicorn la buscará por este nombre "app"
 EVENTI = [{"id": 1, "titolo": "Jazz in Rocca"}]   # datos falsos en memoria (en ES06 vendrán de PostgreSQL)
