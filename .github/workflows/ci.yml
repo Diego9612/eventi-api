@@ -1,18 +1,37 @@
-name: CI  
-on:    
+name: CI                                   
+on:                                        
   push:
     branches: [main]
-  pull_request: 
+  pull_request:
 permissions:
-  contents: read
+  contents: read                           
 jobs:
-  test:                                 
-    runs-on: ubuntu-latest              
+  test:
+    runs-on: ubuntu-latest                 
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13"]   
+    services:                              
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: eventi
+          POSTGRES_PASSWORD: eventi        
+          POSTGRES_DB: eventi
+        ports: ["5432:5432"]               
+        options: >-
+          --health-cmd "pg_isready -U eventi"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - uses: actions/checkout@v5       
-      - uses: actions/setup-python@v6   
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}  
+          cache: pip                       
       - run: pip install -r requirements.txt
       - run: ruff check .
       - run: pytest --cov=app
+        env:
+          DATABASE_URL: postgresql+psycopg://eventi:eventi@localhost:5432/eventi  # localhost, NO "db"
